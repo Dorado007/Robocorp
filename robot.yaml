@@ -1,0 +1,25 @@
+--- 
+name: dolar-col-peso
+description: Robot que obtiene el valor del dólar frente al peso colombiano
+tasks:
+  get_usd_cop:
+    description: Obtiene el valor del dólar frente al peso colombiano
+    robot: python
+    handler: run
+    inputs: {}
+    outputs:
+      exchange_rate: null
+
+robot:
+  language: python
+  main: main.py
+
+conda:
+  channels:
+    - conda-forge
+  dependencies:
+    - python=3.10
+    - pip
+    - pip:
+      - rpaframework
+      - playwright
