@@ -1,11 +1,26 @@
 import requests
+import sys
 
-def run(context):
-    url = "https://api.exchangerate.host/latest?base=USD&symbols=COP"
-    response = requests.get(url)
-    data = response.json()
+def main():
+    try:
+        url = "https://open.er-api.com/v6/latest/USD"
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
 
-    rate = data["rates"]["COP"]
-    print(f"USD → COP: {rate}")
+        data = response.json()
 
-    context["outputs"]["exchange_rate"] = rate
+        if data.get("result") != "success":
+            print("La API no devolvió resultado exitoso")
+            print(data)
+            sys.exit(1)
+
+        rate = data["rates"]["COP"]
+        print(f"USD - COP: {rate}")
+
+    except Exception as e:
+        print("ERROR ejecutando el robot:")
+        print(str(e))
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()
